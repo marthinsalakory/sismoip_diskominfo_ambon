@@ -29,8 +29,8 @@
 		<?php } ?>
 	</div>
 	<div class="col-lg-4 col-sm-12 bg-warning d-flex flex-column justify-content-evenly" style="border-radius: 10px; height: 200px;">
-		<h3 class="text-light text-center bg-danger" style="border-radius: 10px;">TERPUTUS (<?= $terputus; ?>)</h3><br>
-		<h3 class="text-light text-center bg-success" style="border-radius: 10px;">TERHUBUNG (<?= $terhubung; ?>)</h3>
+		<h3 class="text-light text-center bg-danger" style="border-radius: 10px;" id="terputus">TERPUTUS </h3><br>
+		<h3 class="text-light text-center bg-success" style="border-radius: 10px;" id="terhubung">TERHUBUNG </h3>
 	</div>
 </div>
 
@@ -80,7 +80,6 @@
 <?php if (isLogin()) : ?>
 	<form method="POST" class="w-100 text-center mb-3">
 		<button type="button" class="btn bg-primary text-light" data-bs-toggle="modal" data-bs-target="#tambah"><i class="fa fa-add"></i> Tambah</button>
-		<button type="submit" name="all_ping_refresh" onclick="return confirm('YAKIN INGIN MEREFRESH SEMUA IP')" class="btn bg-warning text-light"><i class="fa fa-refresh"></i> All Ping refresh</button>
 	</form>
 <?php endif; ?>
 
@@ -150,23 +149,35 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php if (!empty($all_ip->num_rows)) { ?>
+				<?php
+				$terhubung = 0;
+				$terputus = 0;
+				?>
+				<?php if ($all_ip->num_rows) { ?>
 					<?php $i = 1; ?>
 					<?php foreach ($all_ip as $ip) : ?>
+						<?php
+						$ipp = $ip['ip'];
+						$hasil_ping = exec("ping -n 2 $ipp");
+						$status = substr($hasil_ping, -2) == 'ms';
+						// $hasil_ping = false;
+						// $status = false;
+						if ($status != null) {
+							$terhubung = $terhubung + 1;
+						} else {
+							$terputus = $terputus + 1;
+						}
+						?>
 						<tr>
 							<th scope="row"><?= $i++; ?></th>
-							<td style="min-width: 200px;"><?= $ip['nama']; ?></td>
-							<td style="min-width: 200px;"><?= $ip['ip']; ?></td>
-							<td style="min-width: 200px;"><?= $ip['nama_lokasi'] ?></td>
-							<td style="min-width: 200px;"><?= $ip['status'] == true ? "<i class='mx-2 p-1 bg-success text-light fa fa-check'></i>TERHUBUNG" : "<i class='mx-2 p-1 bg-danger text-light fa fa-power-off'></i>TERPUTUS" ?></td>
-							<td style="min-width: 450px;"><?= $ip['hasil_ping'] ?></td>
-							<td style="min-width: 200px;"><?= $ip['pembaruan_terakhir'] ?></td>
+							<td><?= $ip['nama']; ?></td>
+							<td><?= $ip['ip']; ?></td>
+							<td><?= $ip['nama_lokasi'] ?></td>
+							<td><?= $status == true ? "<i class='mx-2 p-1 bg-success text-light fa fa-check'></i>TERHUBUNG" : "<i class='mx-2 p-1 bg-danger text-light fa fa-power-off'></i>TERPUTUS" ?></td>
+							<td style="min-width: 450px;"><?= $hasil_ping ?></td>
+							<td><?= date('d-m-y H:i:s') ?></td>
 							<?php if (isLogin()) : ?>
 								<td class="text-center d-flex">
-									<form method="POST">
-										<input type="hidden" name="id" value="<?= $ip['id']; ?>">
-										<button name="ping1" onclick="return confirm('YAKIN INGIN MEREFRESH PING IP INI')" class="btn bg-primary text-light btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ping Refresh"><i class="fa fa-refresh"></i></button>
-									</form>
 									<button onclick="$('#ubah #id').val('<?= $ip['id'] ?>');$('#ubah #nama').val('<?= $ip['nama'] ?>');$('#ubah #ip').val('<?= $ip['ip'] ?>');$('#ubah #lokasi #lokasi<?= $ip['lokasi'] ?>').attr('selected', '');" type="button" class="btn btn-warning btn-sm mx-1 " data-bs-toggle="modal" data-bs-target="#ubah"><i class="fa fa-edit"></i></button>
 									<form method="POST">
 										<input type="hidden" name="id" id="id" value="<?= $ip['id']; ?>">
@@ -181,23 +192,14 @@
 						<td class="text-center" colspan="8">Belum Ada Data IP</td>
 					</tr>
 				<?php } ?>
-				<!-- <tr>
-				<th scope="row">2</th>
-				<td>AKSES POINT 2</td>
-				<td>167.8.9.1</td>
-				<td>BANK BRI</td>
-				<td class="d-flex align-items-center"><i class="mx-1 p-1 bg-danger text-light fa fa-power-off"></i>TERPUTUS</td>
-				<td>1283,1ms 2402lg</td>
-				<td><?= date('d-m-Y h:i:s'); ?></td>
-				<td class="d-flex justify-content-evenly">
-					<button class="btn btn-warning btn-sm mx-1"><i class="fa fa-edit"></i></button>
-					<button class="btn btn-danger btn-sm mx-1"><i class="fa fa-trash"></i></button>
-				</td>
-			</tr> -->
 			</tbody>
 		</table>
 	</div>
 </div>
+<script>
+	document.getElementById("terputus").innerHTML = 'TERPUTUS <?= $terputus ?>';
+	document.getElementById("terhubung").innerHTML = 'TERHUBUNG <?= $terhubung ?>';
+</script>
 <?php if (isLogin()) : ?>
 	<!-- Modal UBAH Data Ip -->
 	<div class="modal fade" id="ubah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

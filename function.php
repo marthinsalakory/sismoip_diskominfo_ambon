@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$conn = mysqli_connect('localhost', 'root', '', 'sismoip_diskominfo');
+include 'connecting.php';
 
 $berita = mysqli_query($conn, "SELECT * FROM `berita`");
 $lokasi = mysqli_query($conn, "SELECT * FROM `lokasi`");
@@ -14,14 +14,10 @@ if (isset($_POST['cari_lokasi'])) {
     $id = $_POST['cari_lokasi'];
     $nav_lok[$id] = 'active';
     $nav_lokasi = 'active';
-    $terhubung = mysqli_query($conn, "SELECT * FROM `tb_ip` WHERE `status` = '1'&& `lokasi_id` = $id")->num_rows;
-    $terputus = mysqli_query($conn, "SELECT * FROM `tb_ip` WHERE `status` = '' && `lokasi_id` = $id")->num_rows;
-    $all_ip = mysqli_query($conn, "SELECT * FROM `tb_ip` WHERE `lokasi_id` = $id");
+    $all_ip = mysqli_query($conn, "SELECT * FROM `tb_ip` WHERE `id_lokasi` = '$id'");
     $title_ip = "DATA IP " . mysqli_query($conn, "SELECT * FROM `lokasi` WHERE `id` = '$id'")->fetch_object()->nama;
 } else {
     $nav_lokasi = '';
-    $terhubung = mysqli_query($conn, "SELECT * FROM `tb_ip` WHERE `status` = '1'")->num_rows;
-    $terputus = mysqli_query($conn, "SELECT * FROM `tb_ip` WHERE `status` = ''")->num_rows;
     $all_ip = mysqli_query($conn, "SELECT * FROM `tb_ip`");
     $title_ip = "SEMUA DATA IP";
 }
@@ -41,64 +37,6 @@ if ($fileon == 'index.php') {
     $nav_pengguna = 'active';
 }
 
-// function ping ip
-function ping($ip)
-{
-    return exec("ping -n 2 $ip");
-}
-
-function ping_status($ip)
-{
-    if (substr(exec("ping -n 2 $ip"), -2) == 'ms') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-// PING 1
-if (isset($_POST['ping1'])) {
-    isLoginRedirect();
-    $id = htmlspecialchars($_POST['id']);
-    $row = mysqli_query($conn, "SELECT * FROM `daftar_ip` WHERE `id` = $id")->fetch_object();
-    $status = ping_status($row->ip);
-    $hasil_ping = strtoupper(ping($row->ip));
-    $pembaruan_terakhir = date('d-m-Y h:i:s');
-
-    if (mysqli_query($conn, "UPDATE `daftar_ip` SET `status`='$status',`hasil_ping`='$hasil_ping',`pembaruan_terakhir`='$pembaruan_terakhir' WHERE `id` = $id")) {
-        echo "
-            <script>
-                alert('BERHASIL MEREFRESH DATA IP');
-                window.location.href = 'index';
-            </script>
-        ";
-    } else {
-        echo "
-            <script>
-                alert('GAGAL MEREFRESH DATA IP');
-                window.location.href = 'index';
-            </script>
-        ";
-    }
-}
-
-// ALL PING REFRESH
-if (isset($_POST['all_ping_refresh'])) {
-    foreach ($all_ip as $ipp) {
-        $id = $ipp['id'];
-        $ip = $ipp['ip'];
-        $status = ping_status($ip);
-        $hasil_ping = strtoupper(ping($ip));
-        $pembaruan_terakhir = date('d-m-Y h:i:s');
-        mysqli_query($conn, "UPDATE `daftar_ip` SET `status`='$status',`hasil_ping`='$hasil_ping',`pembaruan_terakhir`='$pembaruan_terakhir' WHERE `id` = $id");
-        echo "
-            <script>
-                alert('BERHASIL MEREFRESH DATA IP');
-                window.location.href = 'index';
-            </script>
-        ";
-    }
-}
 
 // TAMBAH DATA IP
 if (isset($_POST['tambah_ip'])) {
@@ -106,11 +44,9 @@ if (isset($_POST['tambah_ip'])) {
     $nama = htmlspecialchars(strtoupper($_POST['nama']));
     $ip = htmlspecialchars(strtoupper($_POST['ip']));
     $lokasi = htmlspecialchars(strtoupper($_POST['lokasi']));
-    $status = ping_status($_POST['ip']);
-    $hasil_ping = ping($_POST['ip']);
     $pembaruan_terakhir = date('d-m-Y h:i:s');
 
-    if (mysqli_query($conn, "INSERT INTO `daftar_ip`(`nama`, `ip`, `lokasi`, `status`, `hasil_ping`, `pembaruan_terakhir`) VALUES ('$nama','$ip','$lokasi','$status','$hasil_ping', '$pembaruan_terakhir')")) {
+    if (mysqli_query($conn, "INSERT INTO `daftar_ip`(`nama`, `ip`, `lokasi`, `pembaruan_terakhir`) VALUES ('$nama','$ip','$lokasi', '$pembaruan_terakhir')")) {
         echo "
             <script>
                 alert('BERHASIL MENAMBAHKAN DATA IP BARU');
@@ -134,11 +70,9 @@ if (isset($_POST['ubah_ip'])) {
     $nama = htmlspecialchars(strtoupper($_POST['nama']));
     $ip = htmlspecialchars(strtoupper($_POST['ip']));
     $lokasi = htmlspecialchars(strtoupper($_POST['lokasi']));
-    $status = ping_status($_POST['ip']);
-    $hasil_ping = ping($_POST['ip']);
     $pembaruan_terakhir = date('d-m-Y h:i:s');
 
-    if (mysqli_query($conn, "UPDATE `daftar_ip` SET `nama`='$nama',`ip`='$ip',`lokasi`='$lokasi',`status`='$status',`hasil_ping`='$hasil_ping',`pembaruan_terakhir`='$pembaruan_terakhir' WHERE `id` = $id")) {
+    if (mysqli_query($conn, "UPDATE `daftar_ip` SET `nama`='$nama',`ip`='$ip',`lokasi`='$lokasi',`pembaruan_terakhir`='$pembaruan_terakhir' WHERE `id` = $id")) {
         echo "
             <script>
                 alert('BERHASIL MENGUBAH DATA IP');

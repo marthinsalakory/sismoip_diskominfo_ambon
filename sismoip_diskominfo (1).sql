@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 31, 2022 at 03:09 AM
+-- Generation Time: Nov 08, 2022 at 08:30 AM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -32,16 +32,6 @@ CREATE TABLE `berita` (
   `isi` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `berita`
---
-
-INSERT INTO `berita` (`id`, `isi`) VALUES
-(5, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex voluptate eveniet libero repellendus molestias numquam deleniti obcaecati labore! Et, expedita.'),
-(6, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex voluptate eveniet libero repellendus molestias numquam deleniti obcaecati labore! Et, expedita.'),
-(7, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex voluptate eveniet libero repellendus molestias numquam deleniti obcaecati labore! Et, expedita.'),
-(8, 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex voluptate eveniet libero repellendus molestias numquam deleniti obcaecati labore! Et, expedita.');
-
 -- --------------------------------------------------------
 
 --
@@ -53,8 +43,6 @@ CREATE TABLE `daftar_ip` (
   `nama` varchar(255) NOT NULL,
   `ip` varchar(255) NOT NULL,
   `lokasi` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `hasil_ping` varchar(255) NOT NULL,
   `pembaruan_terakhir` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -62,11 +50,12 @@ CREATE TABLE `daftar_ip` (
 -- Dumping data for table `daftar_ip`
 --
 
-INSERT INTO `daftar_ip` (`id`, `nama`, `ip`, `lokasi`, `status`, `hasil_ping`, `pembaruan_terakhir`) VALUES
-(11, 'GATEWAI', '74.125.130.101', '1', '1', '    MINIMUM = 134MS, MAXIMUM = 163MS, AVERAGE = 148MS', '30-10-2022 04:07:59'),
-(12, 'GATEWAI', '192.168.1.1', '2', '', '    PACKETS: SENT = 2, RECEIVED = 1, LOST = 1 (50% LOSS),', '30-10-2022 04:08:12'),
-(13, 'GATEWAI', '192.171.1.23', '3', '', '    PACKETS: SENT = 2, RECEIVED = 0, LOST = 2 (100% LOSS),', '30-10-2022 04:08:30'),
-(14, 'GATEWAI', '74.125.130.101', '2', '1', '    MINIMUM = 99MS, MAXIMUM = 106MS, AVERAGE = 102MS', '30-10-2022 04:08:33');
+INSERT INTO `daftar_ip` (`id`, `nama`, `ip`, `lokasi`, `pembaruan_terakhir`) VALUES
+(11, 'GATEWAI', '74.125.130.101', '1', '08-11-2022 04:03:38'),
+(12, 'GATEWAI', '192.168.1.1', '2', '08-11-2022 04:03:56'),
+(13, 'GATEWAI', '192.171.1.23', '3', '08-11-2022 04:04:14'),
+(14, 'GATEWAI', '74.125.130.101', '2', '08-11-2022 04:04:20'),
+(15, 'TES', '182.102.3.2', '3', '08-11-2022 04:57:25');
 
 -- --------------------------------------------------------
 
@@ -123,10 +112,8 @@ CREATE TABLE `tb_ip` (
 ,`nama` varchar(255)
 ,`ip` varchar(255)
 ,`lokasi` varchar(255)
-,`status` varchar(255)
-,`hasil_ping` varchar(255)
 ,`pembaruan_terakhir` varchar(255)
-,`lokasi_id` int(11)
+,`id_lokasi` int(11)
 ,`nama_lokasi` varchar(255)
 );
 
@@ -176,7 +163,7 @@ INSERT INTO `users` (`id`, `role`, `username`, `password`) VALUES
 --
 DROP TABLE IF EXISTS `tb_ip`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tb_ip`  AS SELECT `daftar_ip`.`id` AS `id`, `daftar_ip`.`nama` AS `nama`, `daftar_ip`.`ip` AS `ip`, `daftar_ip`.`lokasi` AS `lokasi`, `daftar_ip`.`status` AS `status`, `daftar_ip`.`hasil_ping` AS `hasil_ping`, `daftar_ip`.`pembaruan_terakhir` AS `pembaruan_terakhir`, `lokasi`.`id` AS `lokasi_id`, `lokasi`.`nama` AS `nama_lokasi` FROM (`lokasi` join `daftar_ip` on((`lokasi`.`id` = `daftar_ip`.`lokasi`)))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tb_ip`  AS SELECT `daftar_ip`.`id` AS `id`, `daftar_ip`.`nama` AS `nama`, `daftar_ip`.`ip` AS `ip`, `daftar_ip`.`lokasi` AS `lokasi`, `daftar_ip`.`pembaruan_terakhir` AS `pembaruan_terakhir`, `lokasi`.`id` AS `id_lokasi`, `lokasi`.`nama` AS `nama_lokasi` FROM (`daftar_ip` join `lokasi` on((`lokasi`.`id` = `daftar_ip`.`lokasi`)))  ;
 
 --
 -- Indexes for dumped tables
@@ -220,13 +207,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `berita`
 --
 ALTER TABLE `berita`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `daftar_ip`
 --
 ALTER TABLE `daftar_ip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `lokasi`

@@ -23,4 +23,24 @@ $(document).ready(function(){
 	$(".dropdown-saya").click(function(){
 		$(this).next('ul').toggle()
 	});
+
+	// realtimeping();
 });
+
+ 
+// function realtimeping() {
+// 	setTimeout(function() {
+// 		update();
+// 		realtimeping();
+// 	}, 100000);
+// }
+
+// function update()
+// {
+// 	$.ajax({
+// 		url: 'realtimeping.php',
+// 		success: function(e) {
+// 			$('#realtimeping').html(e);
+// 		}
+// 	});
+// }
