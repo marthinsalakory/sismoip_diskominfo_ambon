@@ -111,6 +111,38 @@
 					</div>
 					<div class="row mt-3">
 						<div class="col-12">
+							<label placeholder="MASUKAN UPLOAD MAX LIMIT" class="form-label text-dark" for="upload_max_limit">UPLOAD MAX LIMIT <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-12">
+							<input required maxlength="255" class="form-control text-uppercase" type="number" name="upload_max_limit" id="upload_max_limit">
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12">
+							<label placeholder="MASUKAN DOWNLOAD MAX LIMIT" class="form-label text-dark" for="download_max_limit">DOWNLOAD MAX LIMIT <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-12">
+							<input required maxlength="255" class="form-control text-uppercase" type="number" name="download_max_limit" id="download_max_limit">
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12">
+							<label placeholder="MASUKAN AFTER UPLOAD MAX LIMIT" class="form-label text-dark" for="after_upload_max_limit">AFTER UPLOAD MAX LIMIT <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-12">
+							<input required maxlength="255" class="form-control text-uppercase" type="number" name="after_upload_max_limit" id="after_upload_max_limit">
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12">
+							<label placeholder="MASUKAN AFTER DOWNLOAD MAX LIMIT" class="form-label text-dark" for="after_download_max_limit">AFTER DOWNLOAD MAX LIMIT <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-12">
+							<input required maxlength="255" class="form-control text-uppercase" type="number" name="after_download_max_limit" id="after_download_max_limit">
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12">
 							<label class="form-label text-dark" for="lokasi">LOKASI <span class="text-danger">*</span></label>
 						</div>
 						<div class="col-12">
@@ -142,6 +174,10 @@
 					<th scope="col">LOKASI</th>
 					<th scope="col">STATUS</th>
 					<th scope="col">HASIL PING</th>
+					<th scope="col">UPLOAD MAX LIMIT</th>
+					<th scope="col">DOWNLOAD MAX LIMIT</th>
+					<th scope="col">AFTER UPLOAD MAX LIMIT</th>
+					<th scope="col">AFTER DOWNLOAD MAX LIMIT</th>
 					<th scope="col">PEMBARUAN TERAKHIR</th>
 					<?php if (isLogin()) : ?>
 						<th scope="col">AKSI</th>
@@ -158,8 +194,10 @@
 					<?php foreach ($all_ip as $ip) : ?>
 						<?php
 						$ipp = $ip['ip'];
-						$hasil_ping = exec("ping -n 2 $ipp");
-						$status = substr($hasil_ping, -2) == 'ms';
+						$hasil_ping = 123456;
+						$status = true;
+						// $hasil_ping = exec("ping -n 2 $ipp");
+						// $status = substr($hasil_ping, -2) == 'ms';
 						// $hasil_ping = false;
 						// $status = false;
 						if ($status != null) {
@@ -175,10 +213,14 @@
 							<td><?= $ip['nama_lokasi'] ?></td>
 							<td><?= $status == true ? "<i class='mx-2 p-1 bg-success text-light fa fa-check'></i>TERHUBUNG" : "<i class='mx-2 p-1 bg-danger text-light fa fa-power-off'></i>TERPUTUS" ?></td>
 							<td style="min-width: 450px;"><?= $hasil_ping ?></td>
+							<td><?= $ip['upload_max_limit'] ?></td>
+							<td><?= $ip['download_max_limit'] ?></td>
+							<td><?= $ip['upload_max_limit'] ?></td>
+							<td><?= $ip['after_download_max_limit'] ?></td>
 							<td><?= date('d-m-y H:i:s') ?></td>
 							<?php if (isLogin()) : ?>
 								<td class="text-center d-flex">
-									<button onclick="$('#ubah #id').val('<?= $ip['id'] ?>');$('#ubah #nama').val('<?= $ip['nama'] ?>');$('#ubah #ip').val('<?= $ip['ip'] ?>');$('#ubah #lokasi #lokasi<?= $ip['lokasi'] ?>').attr('selected', '');" type="button" class="btn btn-warning btn-sm mx-1 " data-bs-toggle="modal" data-bs-target="#ubah"><i class="fa fa-edit"></i></button>
+									<button onclick="$('#ubah #id').val('<?= $ip['id'] ?>');$('#ubah #nama').val('<?= $ip['nama'] ?>');$('#ubah #ip').val('<?= $ip['ip'] ?>');$('#ubah #upload_max_limit').val('<?= $ip['upload_max_limit'] ?>');$('#ubah #download_max_limit').val('<?= $ip['download_max_limit'] ?>');$('#ubah #after_upload_max_limit').val('<?= $ip['after_upload_max_limit'] ?>');$('#ubah #after_download_max_limit').val('<?= $ip['after_download_max_limit'] ?>');$('#ubah #lokasi #lokasi<?= $ip['lokasi'] ?>').attr('selected', '');" type="button" class="btn btn-warning btn-sm mx-1 " data-bs-toggle="modal" data-bs-target="#ubah"><i class="fa fa-edit"></i></button>
 									<form method="POST">
 										<input type="hidden" name="id" id="id" value="<?= $ip['id']; ?>">
 										<button onclick="return confirm('Hapus?')" name="hapus-ip" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hapus"><i class="fa fa-trash"></i></button>
@@ -225,6 +267,38 @@
 						</div>
 						<div class="col-12">
 							<input required maxlength="255" class="form-control text-uppercase" type="text" name="ip" id="ip">
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12">
+							<label placeholder="MASUKAN UPLOAD MAX LIMIT" class="form-label text-dark" for="upload_max_limit">UPLOAD MAX LIMIT <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-12">
+							<input required maxlength="255" class="form-control text-uppercase" type="number" name="upload_max_limit" id="upload_max_limit">
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12">
+							<label placeholder="MASUKAN DOWNLOAD MAX LIMIT" class="form-label text-dark" for="download_max_limit">DOWNLOAD MAX LIMIT <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-12">
+							<input required maxlength="255" class="form-control text-uppercase" type="number" name="download_max_limit" id="download_max_limit">
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12">
+							<label placeholder="MASUKAN AFTER UPLOAD MAX LIMIT" class="form-label text-dark" for="after_upload_max_limit">AFTER UPLOAD MAX LIMIT <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-12">
+							<input required maxlength="255" class="form-control text-uppercase" type="number" name="after_upload_max_limit" id="after_upload_max_limit">
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-12">
+							<label placeholder="MASUKAN AFTER DOWNLOAD MAX LIMIT" class="form-label text-dark" for="after_download_max_limit">AFTER DOWNLOAD MAX LIMIT <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-12">
+							<input required maxlength="255" class="form-control text-uppercase" type="number" name="after_download_max_limit" id="after_download_max_limit">
 						</div>
 					</div>
 					<div class="row mt-3">

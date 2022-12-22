@@ -13,7 +13,7 @@
 
 <!-- TENTANG -->
 <div class="mt-5 bg-info text-light border px-5 pt-3 pb-5">
-    <h3 class="text-light text-center fw-bold">TENTANG SISMOIP
+    <h3 class="text-light text-center fw-bold">TENTANG SISMOJAR
         <?php if (isLogin()) : ?>
             <button class="btn btn-warning btn-sm float-end" data-bs-toggle="modal" data-bs-target="#edit_tentang"><i class="fa fa-edit"></i></button>
         <?php endif; ?>

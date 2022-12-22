@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>SISMOIP DISKOMINFO</title>
+    <title>SISMOJAR DISKOMINFO</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -26,7 +26,7 @@
                 </button>
             </div>
             <div class="p-4">
-                <h1><a href="index" class="logo">SISMOIP <span>DINAS KOMINFO</span></a></h1>
+                <h1><a href="index" class="logo">SISMOJAR <span>DINAS KOMINFO</span></a></h1>
                 <ul class="list-unstyled components mb-5">
                     <li class="<?= $nav_beranda; ?>">
                         <a href="index"><span class="fa fa-home mr-3"></span> BERANDA</a>
@@ -52,7 +52,7 @@
                         </ul>
                     </li>
                     <li class="<?= $nav_tentang; ?>">
-                        <a href="tentang"><span class="fa-solid fa-address-card mr-3"></span> TENTANG SISMOIP</a>
+                        <a href="tentang"><span class="fa-solid fa-address-card mr-3"></span> TENTANG SISMOJAR</a>
                     </li>
                     <li class="<?= $nav_kontak; ?>">
                         <a href="kontak"><span class="fa fa-paper-plane mr-3"></span> HUBUNGI KAMI</a>
@@ -79,7 +79,7 @@
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Hak Cipta &copy;<script>
                             document.write(new Date().getFullYear());
-                        </script> Semua hak dilindungi undang-undang | Aplikasi ini di buat oleh <i class="icon-heart" aria-hidden="true"></i> <a style="color: #9AA2D6;font-weight: 700;" href="https://wa.me/081318812027" target="_blank">Romahdona Wijaya</a>
+                        </script> Semua hak dilindungi undang-undang | Aplikasi ini di buat oleh <i class="icon-heart" aria-hidden="true"></i> <a style="color: #9AA2D6;font-weight: 700;" href="https://wa.me/082281021531" target="_blank">Romahdona Wijaya</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
                 </div>

@@ -43,10 +43,14 @@ if (isset($_POST['tambah_ip'])) {
     isLoginRedirect();
     $nama = htmlspecialchars(strtoupper($_POST['nama']));
     $ip = htmlspecialchars(strtoupper($_POST['ip']));
+    $upload_max_limit = htmlspecialchars($_POST['upload_max_limit']);
+    $download_max_limit = htmlspecialchars($_POST['download_max_limit']);
+    $after_upload_max_limit = htmlspecialchars($_POST['after_upload_max_limit']);
+    $after_download_max_limit = htmlspecialchars($_POST['after_download_max_limit']);
     $lokasi = htmlspecialchars(strtoupper($_POST['lokasi']));
     $pembaruan_terakhir = date('d-m-Y h:i:s');
 
-    if (mysqli_query($conn, "INSERT INTO `daftar_ip`(`nama`, `ip`, `lokasi`, `pembaruan_terakhir`) VALUES ('$nama','$ip','$lokasi', '$pembaruan_terakhir')")) {
+    if (mysqli_query($conn, "INSERT INTO `daftar_ip`(`nama`, `ip`, `upload_max_limit`, `download_max_limit`, `after_upload_max_limit`, `after_download_max_limit`, `lokasi`, `pembaruan_terakhir`) VALUES ('$nama','$ip', '$upload_max_limit', '$download_max_limit', '$after_upload_max_limit', '$after_download_max_limit','$lokasi', '$pembaruan_terakhir')")) {
         echo "
             <script>
                 alert('BERHASIL MENAMBAHKAN DATA IP BARU');
@@ -69,10 +73,14 @@ if (isset($_POST['ubah_ip'])) {
     $id = htmlspecialchars($_POST['id']);
     $nama = htmlspecialchars(strtoupper($_POST['nama']));
     $ip = htmlspecialchars(strtoupper($_POST['ip']));
+    $upload_max_limit = htmlspecialchars($_POST['upload_max_limit']);
+    $download_max_limit = htmlspecialchars($_POST['download_max_limit']);
+    $after_upload_max_limit = htmlspecialchars($_POST['after_upload_max_limit']);
+    $after_download_max_limit = htmlspecialchars($_POST['after_download_max_limit']);
     $lokasi = htmlspecialchars(strtoupper($_POST['lokasi']));
     $pembaruan_terakhir = date('d-m-Y h:i:s');
 
-    if (mysqli_query($conn, "UPDATE `daftar_ip` SET `nama`='$nama',`ip`='$ip',`lokasi`='$lokasi',`pembaruan_terakhir`='$pembaruan_terakhir' WHERE `id` = $id")) {
+    if (mysqli_query($conn, "UPDATE `daftar_ip` SET `nama`='$nama',`ip`='$ip',`lokasi`='$lokasi',`pembaruan_terakhir`='$pembaruan_terakhir',`upload_max_limit`='$upload_max_limit',`download_max_limit`='$download_max_limit',`after_upload_max_limit`='$after_upload_max_limit',`after_download_max_limit`='$after_download_max_limit' WHERE `id` = $id")) {
         echo "
             <script>
                 alert('BERHASIL MENGUBAH DATA IP');
