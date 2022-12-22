@@ -29,6 +29,8 @@ if ($fileon == 'index.php') {
     if (empty($nav_lokasi)) {
         $nav_beranda = 'active';
     }
+} else if ($fileon == 'grafik.php') {
+    $nav_grafik = 'active';
 } else if ($fileon == 'tentang.php') {
     $nav_tentang = 'active';
 } else if ($fileon == 'kontak.php') {

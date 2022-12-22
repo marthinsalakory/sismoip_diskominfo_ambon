@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 16, 2022 at 10:00 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Host: localhost
+-- Generation Time: Dec 22, 2022 at 11:54 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `berita` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `isi` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -39,9 +39,13 @@ CREATE TABLE `berita` (
 --
 
 CREATE TABLE `daftar_ip` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `nama` varchar(255) NOT NULL,
   `ip` varchar(255) NOT NULL,
+  `upload_max_limit` varchar(255) NOT NULL,
+  `download_max_limit` varchar(255) NOT NULL,
+  `after_upload_max_limit` varchar(255) NOT NULL,
+  `after_download_max_limit` varchar(255) NOT NULL,
   `lokasi` varchar(255) NOT NULL,
   `pembaruan_terakhir` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -50,18 +54,18 @@ CREATE TABLE `daftar_ip` (
 -- Dumping data for table `daftar_ip`
 --
 
-INSERT INTO `daftar_ip` (`id`, `nama`, `ip`, `lokasi`, `pembaruan_terakhir`) VALUES
-(14, 'AKSES 2', '192.168.56.1', '1', '13-12-2022 09:32:02'),
-(17, 'AKSES 1', '192.168.1.6', '1', '13-12-2022 06:41:29'),
-(19, 'KOMINFO PAK AGUS', '192.168.3.12', '3', '14-12-2022 10:47:41'),
-(20, 'PAK LUCAN', '192.168.3.14', '3', '14-12-2022 12:36:07'),
-(21, 'ROG 247', '192.1681.247', '3', '15-12-2022 03:07:03'),
-(22, 'ROG 248 GEDUNG A', '192.168.1.248', '1', '15-12-2022 03:07:56'),
-(23, 'KOMINFO PA HENDRA G2', '192.168.2.6', '3', '15-12-2022 03:09:52'),
-(24, 'WIFI MECE', '192.168.2.245', '3', '15-12-2022 03:12:00'),
-(25, 'KOMINFO 3', '192.168.3.3', '3', '15-12-2022 03:14:11'),
-(26, 'PAK SEKDIS', '192.168.3.4', '3', '15-12-2022 03:17:05'),
-(27, 'KOMINFO PA HEND', '191.168.3.6', '3', '15-12-2022 03:23:34');
+INSERT INTO `daftar_ip` (`id`, `nama`, `ip`, `upload_max_limit`, `download_max_limit`, `after_upload_max_limit`, `after_download_max_limit`, `lokasi`, `pembaruan_terakhir`) VALUES
+(14, 'AKSES 2', '192.168.56.1', '10', '5', '3', '5', '1', '22-12-2022 08:32:50'),
+(17, 'AKSES 1', '192.168.1.6', '8', '4', '5', '4', '1', '22-12-2022 08:10:21'),
+(19, 'KOMINFO PAK AGUS', '192.168.3.12', '6', '7', '5', '9', '3', '22-12-2022 08:10:38'),
+(20, 'PAK LUCAN', '192.168.3.14', '3', '8', '10', '6', '3', '22-12-2022 08:10:55'),
+(21, 'ROG 247', '192.1681.247', '8', '9', '4', '7', '3', '22-12-2022 08:11:08'),
+(22, 'ROG 248 GEDUNG A', '192.168.1.248', '7', '6', '9', '6', '1', '22-12-2022 08:11:22'),
+(23, 'KOMINFO PA HENDRA G2', '192.168.2.6', '3', '5', '8', '6', '3', '22-12-2022 08:11:36'),
+(24, 'WIFI MECE', '192.168.2.245', '8', '4', '9', '10', '3', '22-12-2022 08:11:50'),
+(25, 'KOMINFO 3', '192.168.3.3', '9', '7', '5', '7', '3', '22-12-2022 08:12:05'),
+(26, 'PAK SEKDIS', '192.168.3.4', '9', '5', '7', '10', '3', '22-12-2022 08:12:18'),
+(27, 'KOMINFO PA HEND', '191.168.3.6', '9', '7', '9', '10', '3', '22-12-2022 08:12:35');
 
 -- --------------------------------------------------------
 
@@ -70,7 +74,7 @@ INSERT INTO `daftar_ip` (`id`, `nama`, `ip`, `lokasi`, `pembaruan_terakhir`) VAL
 --
 
 CREATE TABLE `lokasi` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `nama` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -79,10 +83,10 @@ CREATE TABLE `lokasi` (
 --
 
 INSERT INTO `lokasi` (`id`, `nama`) VALUES
-(1, 'GEDUNG 1'),
-(2, 'GEDUNG 2'),
-(3, 'GEDUNG 3'),
-(4, 'GEDUNG 4');
+(1, 'GEDUNG A'),
+(2, 'GEDUNG B'),
+(3, 'GEDUNG C'),
+(4, 'GEDUNG D');
 
 -- --------------------------------------------------------
 
@@ -91,7 +95,7 @@ INSERT INTO `lokasi` (`id`, `nama`) VALUES
 --
 
 CREATE TABLE `pesan` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `nama` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `judul` varchar(255) NOT NULL,
@@ -113,12 +117,16 @@ INSERT INTO `pesan` (`id`, `nama`, `email`, `judul`, `pesan`) VALUES
 -- (See below for the actual view)
 --
 CREATE TABLE `tb_ip` (
-`id` int(11)
+`id` int
 ,`nama` varchar(255)
 ,`ip` varchar(255)
+,`upload_max_limit` varchar(255)
+,`download_max_limit` varchar(255)
+,`after_upload_max_limit` varchar(255)
+,`after_download_max_limit` varchar(255)
 ,`lokasi` varchar(255)
 ,`pembaruan_terakhir` varchar(255)
-,`id_lokasi` int(11)
+,`id_lokasi` int
 ,`nama_lokasi` varchar(255)
 );
 
@@ -129,7 +137,7 @@ CREATE TABLE `tb_ip` (
 --
 
 CREATE TABLE `tentang` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `tentang` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -168,7 +176,7 @@ INSERT INTO `users` (`id`, `role`, `username`, `password`) VALUES
 --
 DROP TABLE IF EXISTS `tb_ip`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tb_ip`  AS  select `daftar_ip`.`id` AS `id`,`daftar_ip`.`nama` AS `nama`,`daftar_ip`.`ip` AS `ip`,`daftar_ip`.`lokasi` AS `lokasi`,`daftar_ip`.`pembaruan_terakhir` AS `pembaruan_terakhir`,`lokasi`.`id` AS `id_lokasi`,`lokasi`.`nama` AS `nama_lokasi` from (`daftar_ip` join `lokasi` on(`lokasi`.`id` = `daftar_ip`.`lokasi`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tb_ip`  AS SELECT `daftar_ip`.`id` AS `id`, `daftar_ip`.`nama` AS `nama`, `daftar_ip`.`ip` AS `ip`, `daftar_ip`.`upload_max_limit` AS `upload_max_limit`, `daftar_ip`.`download_max_limit` AS `download_max_limit`, `daftar_ip`.`after_upload_max_limit` AS `after_upload_max_limit`, `daftar_ip`.`after_download_max_limit` AS `after_download_max_limit`, `daftar_ip`.`lokasi` AS `lokasi`, `daftar_ip`.`pembaruan_terakhir` AS `pembaruan_terakhir`, `lokasi`.`id` AS `id_lokasi`, `lokasi`.`nama` AS `nama_lokasi` FROM (`daftar_ip` join `lokasi` on((`lokasi`.`id` = `daftar_ip`.`lokasi`)))  ;
 
 --
 -- Indexes for dumped tables
@@ -212,25 +220,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `berita`
 --
 ALTER TABLE `berita`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `daftar_ip`
 --
 ALTER TABLE `daftar_ip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `lokasi`
 --
 ALTER TABLE `lokasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pesan`
 --
 ALTER TABLE `pesan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

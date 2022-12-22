@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <link rel="stylesheet" href="assets/css/style.css">
     <meta http-equiv="refresh" content="120" />
 </head>
@@ -50,6 +51,9 @@
                                 </li>
                             <?php endforeach; ?>
                         </ul>
+                    </li>
+                    <li class="<?= $nav_grafik; ?>">
+                        <a href="grafik"><i class="fa-solid fa-chart-column mr-3"></i> GRAFIK</a>
                     </li>
                     <li class="<?= $nav_tentang; ?>">
                         <a href="tentang"><span class="fa-solid fa-address-card mr-3"></span> TENTANG SISMOJAR</a>

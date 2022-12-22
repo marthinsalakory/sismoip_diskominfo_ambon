@@ -77,11 +77,17 @@
 <!-- START DATA IP -->
 <h3 class="text-center mt-5" style="font-weight: 700;"><?= $title_ip; ?></h3>
 
-<?php if (isLogin()) : ?>
-	<form method="POST" class="w-100 text-center mb-3">
+<form action='grafik' method="POST" class="w-100 text-center mb-3">
+	<?php if (isLogin()) : ?>
 		<button type="button" class="btn bg-primary text-light" data-bs-toggle="modal" data-bs-target="#tambah"><i class="fa fa-add"></i> Tambah</button>
-	</form>
-<?php endif; ?>
+	<?php endif; ?>
+	<?php if (isset($_POST['cari_lokasi'])) : ?>
+		<input required type="hidden" name="cari_lokasi" value="<?= $_POST['cari_lokasi'] ?>">
+		<button type="submit" class="btn bg-primary text-light"><i class="fa-solid fa-chart-column"></i> GRAFIK</button>
+	<?php else : ?>
+		<a href="grafik" class="btn bg-primary text-light"><i class="fa-solid fa-chart-column"></i> GRAFIK</a>
+	<?php endif ?>
+</form>
 
 <?php if (isLogin()) : ?>
 	<!-- Modal Tambah Data Ip -->
@@ -194,12 +200,10 @@
 					<?php foreach ($all_ip as $ip) : ?>
 						<?php
 						$ipp = $ip['ip'];
-						$hasil_ping = 123456;
-						$status = true;
-						// $hasil_ping = exec("ping -n 2 $ipp");
-						// $status = substr($hasil_ping, -2) == 'ms';
-						// $hasil_ping = false;
-						// $status = false;
+						// $hasil_ping = 'Sent = 4, Received = 4, Lost = 0 (0% loss)';
+						// $status = true;
+						$hasil_ping = exec("ping -n 2 $ipp");
+						$status = substr($hasil_ping, -2) == 'ms';
 						if ($status != null) {
 							$terhubung = $terhubung + 1;
 						} else {
@@ -215,7 +219,7 @@
 							<td style="min-width: 450px;"><?= $hasil_ping ?></td>
 							<td><?= $ip['upload_max_limit'] ?></td>
 							<td><?= $ip['download_max_limit'] ?></td>
-							<td><?= $ip['upload_max_limit'] ?></td>
+							<td><?= $ip['after_upload_max_limit'] ?></td>
 							<td><?= $ip['after_download_max_limit'] ?></td>
 							<td><?= date('d-m-y H:i:s') ?></td>
 							<?php if (isLogin()) : ?>
@@ -231,7 +235,7 @@
 					<?php endforeach; ?>
 				<?php } else { ?>
 					<tr>
-						<td class="text-center" colspan="8">Belum Ada Data IP</td>
+						<td class="text-center" colspan="11">Belum Ada Data IP</td>
 					</tr>
 				<?php } ?>
 			</tbody>
